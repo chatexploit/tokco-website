@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUp, ArrowUpRight, Heart } from 'lucide-react';
+import { ArrowUp, ArrowUpRight, Heart, MapPin } from 'lucide-react';
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -20,26 +20,42 @@ export default function Footer() {
             />
           </a>
           <p className="footer-brand-bio">
-            A celebration of vibrant colors, artisanal pastry craft, and the little round moments
-            that make life taste sweeter.
+            <strong>Taste Your Happiness ✨</strong><br />
+            Chalakudy’s premier destination for warm chocolate-filled breads, fresh donuts,
+            and specialty coffee on Tramway Lane.
           </p>
+          <div className="footer-location-line">
+            <MapPin size={14} className="pin" />
+            <span>Tramway Lane, Chalakudy, Kerala, India</span>
+          </div>
         </div>
 
         <div className="footer-links-grid">
           <div className="footer-col">
-            <h4 className="footer-col-title">NAVIGATION</h4>
+            <h4 className="footer-col-title">EXPERIENCE</h4>
             <ul className="footer-nav-list">
-              <li><a href="#hero">Home</a></li>
-              <li><a href="#reveal">The Reveal</a></li>
-              <li><a href="#craft">Anatomy & Craft</a></li>
-              <li><a href="#showcase">Universe</a></li>
-              <li><a href="#connect">Connect</a></li>
+              <li><a href="#hero">Welcome</a></li>
+              <li><a href="#chocolate">Chocolate Experience</a></li>
+              <li><a href="#menu">The Menu</a></li>
+              <li><a href="#realtokco">The Real TOKCO</a></li>
+              <li><a href="#location">Find Your Happiness</a></li>
             </ul>
           </div>
 
           <div className="footer-col">
-            <h4 className="footer-col-title">CONNECT</h4>
+            <h4 className="footer-col-title">VISIT & CONNECT</h4>
             <ul className="footer-nav-list">
+              <li>
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Tramway+Lane+Chalakudy+Kerala"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="footer-external-link"
+                >
+                  <span>Directions on Google Maps</span>
+                  <ArrowUpRight size={13} />
+                </a>
+              </li>
               <li>
                 <a
                   href="https://www.instagram.com/tokco.in/"
@@ -47,7 +63,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="footer-external-link"
                 >
-                  <span>Instagram</span>
+                  <span>Instagram @tokco.in</span>
                   <ArrowUpRight size={13} />
                 </a>
               </li>
@@ -62,7 +78,7 @@ export default function Footer() {
         <div className="copyright-text">
           <span>© {new Date().getFullYear()} TOKCO. All rights reserved.</span>
           <span className="footer-divider">•</span>
-          <span>Made with <Heart size={12} className="heart-icon" /> & sprinkles</span>
+          <span>Crafted with <Heart size={12} className="heart-icon" /> in Chalakudy, Kerala</span>
         </div>
 
         <button

@@ -1,24 +1,23 @@
-import React, { useRef, useMemo, useEffect, useState } from 'react';
+import React, { useRef, useMemo, useEffect } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import {
   createDoughTexture,
   createDoughBumpMap,
-  createGlazeBumpMap,
+  createChocolateGlazeBumpMap,
 } from '../utils/textureGenerator';
 
-// Palette of festive sprinkles
-const SPRINKLE_COLORS = [
-  '#FFE600', // Tokco Butter Yellow
-  '#FFFFFF', // Crisp Sugar White
-  '#00D2FF', // Electric Sky Blue
-  '#D946EF', // Bubblegum Magenta
-  '#FF6B35', // Warm Tangerine
-  '#A3E635', // Lime Pop
+// Authentic pastel sprinkle palette matching the real TOKCO chocolate donut (ref-3)
+const REAL_TOKCO_SPRINKLES = [
+  '#38BDF8', // Sky Blue
+  '#FDE047', // Sunshine Yellow
+  '#FFFFFF', // Sugar White
+  '#F472B6', // Pastel Pink
+  '#A3E635', // Fresh Lime
 ];
 
 /**
- * Builds realistic parametric dough geometry with baked organic bumps.
+ * Builds realistic parametric dough geometry with organic baked rise variations.
  */
 function createBakedDoughGeometry(R = 1.45, r = 0.68, tubularSegments = 96, radialSegments = 48) {
   const geom = new THREE.BufferGeometry();
@@ -39,7 +38,7 @@ function createBakedDoughGeometry(R = 1.45, r = 0.68, tubularSegments = 96, radi
       const cosU = Math.cos(u);
       const sinU = Math.sin(u);
 
-      // Organic low-frequency dough rise variations (baked imperfection)
+      // Organic low-frequency dough rise variations (natural proofed pastry lumpiness)
       const organicNoise =
         0.024 * Math.sin(5 * u) * Math.cos(3 * v) +
         0.012 * Math.sin(11 * u + 1.2) +
@@ -85,9 +84,9 @@ function createBakedDoughGeometry(R = 1.45, r = 0.68, tubularSegments = 96, radi
 }
 
 /**
- * Builds physical dripping pink frosting layer draped over the upper donut.
+ * Builds a physical dripping chocolate glaze layer draped over the upper donut.
  */
-function createFrostingGeometry(R = 1.45, r = 0.68, tubularSegments = 120, radialSegments = 32) {
+function createChocolateGlazeGeometry(R = 1.45, r = 0.68, tubularSegments = 120, radialSegments = 32) {
   const geom = new THREE.BufferGeometry();
   const positions = [];
   const normals = [];
@@ -101,7 +100,7 @@ function createFrostingGeometry(R = 1.45, r = 0.68, tubularSegments = 120, radia
     const cosU = Math.cos(u);
     const sinU = Math.sin(u);
 
-    // Drip wave contour along the outer skirt
+    // Drip wave contour along the outer skirt (natural dipping lobes)
     const outerDrip =
       0.22 * Math.sin(7 * u + 0.4) +
       0.13 * Math.cos(13 * u - 0.8) +
@@ -111,7 +110,7 @@ function createFrostingGeometry(R = 1.45, r = 0.68, tubularSegments = 120, radia
     // Inner rim wave
     const innerWave = 0.08 * Math.sin(5 * u) + 0.04 * Math.cos(11 * u);
 
-    // Angle coverage: from inner rim (approx -0.15 rad) to outer dripping edge
+    // Angle coverage: from inner rim (approx -0.18 rad) to outer dripping edge
     const vStart = -0.18 + innerWave;
     const vEnd = Math.PI + 0.18 + outerDrip;
 
@@ -121,9 +120,9 @@ function createFrostingGeometry(R = 1.45, r = 0.68, tubularSegments = 120, radia
       const cosV = Math.cos(v);
       const sinV = Math.sin(v);
 
-      // Viscous frosting thickness offset: thick in center, soft rounded bead at edge
+      // Viscous chocolate thickness offset: thick crown, rounded bead meniscus along edge
       const edgeFalloff = Math.sin(frac * Math.PI);
-      const thickness = 0.015 + 0.042 * Math.pow(edgeFalloff, 0.45);
+      const thickness = 0.016 + 0.046 * Math.pow(edgeFalloff, 0.45);
 
       const effectiveR = r + thickness;
 
@@ -165,11 +164,11 @@ function createFrostingGeometry(R = 1.45, r = 0.68, tubularSegments = 120, radia
 }
 
 /**
- * Generates randomly scattered colorful sprinkles adhering to the frosting top.
+ * Generates randomly scattered pastel sprinkles adhering to the chocolate glaze.
  */
-function createSprinkleData(count = 220, R = 1.45, r = 0.68) {
+function createSprinkleData(count = 160, R = 1.45, r = 0.68) {
   const data = [];
-  let seed = 98765;
+  let seed = 84729;
   const rnd = () => {
     seed = (seed * 9301 + 49297) % 233280;
     return seed / 233280;
@@ -179,10 +178,10 @@ function createSprinkleData(count = 220, R = 1.45, r = 0.68) {
 
   for (let k = 0; k < count; k++) {
     const u = rnd() * TAU;
-    // Concentrate sprinkles on the upper curved arch of the frosting
-    const v = 0.35 + rnd() * (Math.PI - 0.7);
+    // Concentrate sprinkles on the upper curved arch of the chocolate glaze
+    const v = 0.38 + rnd() * (Math.PI - 0.76);
 
-    // Frosting elevation
+    // Glaze elevation
     const effectiveR = r + 0.052;
 
     const cosU = Math.cos(u);
@@ -208,12 +207,12 @@ function createSprinkleData(count = 220, R = 1.45, r = 0.68) {
       .addScaledVector(tangentV, Math.sin(angle))
       .normalize();
 
-    // Orientation quaternion aligning cylinder Y axis to sprinkle direction
+    // Quaternion aligning cylinder Y axis to sprinkle direction
     const quat = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir);
 
-    const color = SPRINKLE_COLORS[k % SPRINKLE_COLORS.length];
-    const length = 0.085 + rnd() * 0.045;
-    const radius = 0.02 + rnd() * 0.005;
+    const color = REAL_TOKCO_SPRINKLES[k % REAL_TOKCO_SPRINKLES.length];
+    const length = 0.08 + rnd() * 0.04;
+    const radius = 0.018 + rnd() * 0.005;
 
     data.push({
       position: [x, y, z],
@@ -229,7 +228,7 @@ function createSprinkleData(count = 220, R = 1.45, r = 0.68) {
 export default function DonutModel({ scrollProgress = 0, isMobile = false }) {
   const groupRef = useRef();
   const innerRef = useRef();
-  const { size, gl } = useThree();
+  const { gl } = useThree();
 
   // Drag interaction state
   const isDragging = useRef(false);
@@ -241,27 +240,27 @@ export default function DonutModel({ scrollProgress = 0, isMobile = false }) {
   // Procedural textures
   const doughTexture = useMemo(() => createDoughTexture(), []);
   const doughBump = useMemo(() => createDoughBumpMap(), []);
-  const glazeBump = useMemo(() => createGlazeBumpMap(), []);
+  const chocolateBump = useMemo(() => createChocolateGlazeBumpMap(), []);
 
   // Geometries
   const doughGeom = useMemo(() => createBakedDoughGeometry(), []);
-  const frostingGeom = useMemo(() => createFrostingGeometry(), []);
-  const sprinkles = useMemo(() => createSprinkleData(isMobile ? 120 : 220), [isMobile]);
+  const glazeGeom = useMemo(() => createChocolateGlazeGeometry(), []);
+  const sprinkles = useMemo(() => createSprinkleData(isMobile ? 95 : 160), [isMobile]);
 
   // Sprinkle shared geometry & materials
   const sprinkleGeom = useMemo(() => new THREE.CylinderGeometry(1, 1, 1, 8), []);
   const sprinkleMaterials = useMemo(() => {
-    return SPRINKLE_COLORS.map(
+    return REAL_TOKCO_SPRINKLES.map(
       (color) =>
         new THREE.MeshStandardMaterial({
           color,
           roughness: 0.22,
-          metalness: 0.05,
+          metalness: 0.04,
         })
     );
   }, []);
 
-  // Pointer drag listeners attached to canvas element
+  // Pointer drag listeners
   useEffect(() => {
     const canvas = gl.domElement;
     if (!canvas) return;
@@ -289,7 +288,7 @@ export default function DonutModel({ scrollProgress = 0, isMobile = false }) {
         dragRotation.current.y += dragVelocity.current.x;
         dragRotation.current.x += dragVelocity.current.y;
       } else {
-        // Parallax when idle
+        // Subtle hover parallax when idle
         hoverParallax.current.x = nx * 0.15;
         hoverParallax.current.y = ny * 0.15;
       }
@@ -318,21 +317,21 @@ export default function DonutModel({ scrollProgress = 0, isMobile = false }) {
     };
   }, [gl]);
 
-  // Clean up on unmount
+  // Clean up
   useEffect(() => {
     return () => {
       doughTexture?.dispose();
       doughBump?.dispose();
-      glazeBump?.dispose();
+      chocolateBump?.dispose();
       doughGeom?.dispose();
-      frostingGeom?.dispose();
+      glazeGeom?.dispose();
       sprinkleGeom?.dispose();
       sprinkleMaterials.forEach((m) => m.dispose());
     };
-  }, [doughTexture, doughBump, glazeBump, doughGeom, frostingGeom, sprinkleGeom, sprinkleMaterials]);
+  }, [doughTexture, doughBump, chocolateBump, doughGeom, glazeGeom, sprinkleGeom, sprinkleMaterials]);
 
-  // Frame animation loop with smooth lerping across 5 scenes
-  useFrame((state, delta) => {
+  // Animation frame loop with smooth lerping across 5 scenes
+  useFrame((state) => {
     if (!groupRef.current || !innerRef.current) return;
 
     // Apply drag inertia with decaying velocity
@@ -343,15 +342,7 @@ export default function DonutModel({ scrollProgress = 0, isMobile = false }) {
       dragVelocity.current.y *= 0.93;
     }
 
-    // Scroll progress normalized [0, 1]
     const p = Math.max(0, Math.min(1, scrollProgress));
-
-    // Scene interpolation breakpoints:
-    // Scene 1 (0.0): Hero stance (centered/right, gentle tilt, sparkling crown)
-    // Scene 2 (0.25): The Reveal (swoops in, shows dripping frosting & golden fry ring)
-    // Scene 3 (0.50): Anatomy & Craft (macro close-up on glaze & sprinkles)
-    // Scene 4 (0.75): Brand Showcase (shifts to flank, frames editorial story cards)
-    // Scene 5 (1.0): Studio Finale & CTA (proud celebratory pose)
 
     let targetX = 0;
     let targetY = 0;
@@ -362,12 +353,11 @@ export default function DonutModel({ scrollProgress = 0, isMobile = false }) {
     let targetScale = 1.0;
 
     const t = state.clock.getElapsedTime();
-    // Subtle idle floating breath
     const floatY = Math.sin(t * 1.4) * 0.05;
     const floatRot = Math.cos(t * 0.9) * 0.03;
 
     if (isMobile) {
-      // Mobile choreography: keeps donut in top/center sweet spot so text below is clean
+      // Mobile choreography: centers donut in top half so text below remains completely clear
       if (p < 0.25) {
         const u = p / 0.25;
         targetX = 0;
@@ -408,7 +398,7 @@ export default function DonutModel({ scrollProgress = 0, isMobile = false }) {
     } else {
       // Desktop choreography
       if (p < 0.25) {
-        // Scene 1: Hero
+        // Scene 1: Welcome to TOKCO
         const u = p / 0.25;
         targetX = THREE.MathUtils.lerp(0.85, 0.4, u);
         targetY = THREE.MathUtils.lerp(-0.05, 0.05, u) + floatY;
@@ -418,27 +408,27 @@ export default function DonutModel({ scrollProgress = 0, isMobile = false }) {
         targetRotZ = THREE.MathUtils.lerp(-0.15, 0.2, u);
         targetScale = THREE.MathUtils.lerp(1.0, 1.15, u);
       } else if (p < 0.5) {
-        // Scene 2 -> Scene 3: The Reveal to Macro Craft
+        // Scene 2: Chocolate Experience (zoom in close!)
         const u = (p - 0.25) / 0.25;
         targetX = THREE.MathUtils.lerp(0.4, -0.65, u);
         targetY = THREE.MathUtils.lerp(0.05, -0.1, u) + floatY;
-        targetZ = THREE.MathUtils.lerp(0.5, 0.9, u); // Zoom in close!
+        targetZ = THREE.MathUtils.lerp(0.5, 0.92, u);
         targetRotX = THREE.MathUtils.lerp(0.95, 1.25, u);
         targetRotY = THREE.MathUtils.lerp(1.35, 2.9, u);
         targetRotZ = THREE.MathUtils.lerp(0.2, -0.1, u);
         targetScale = THREE.MathUtils.lerp(1.15, 1.35, u);
       } else if (p < 0.75) {
-        // Scene 3 -> Scene 4: Macro to Brand Showcase (glides to right side)
+        // Scene 3: The TOKCO Menu & Showcase
         const u = (p - 0.5) / 0.25;
         targetX = THREE.MathUtils.lerp(-0.65, 1.15, u);
         targetY = THREE.MathUtils.lerp(-0.1, 0.0, u) + floatY;
-        targetZ = THREE.MathUtils.lerp(0.9, 0.1, u);
+        targetZ = THREE.MathUtils.lerp(0.92, 0.1, u);
         targetRotX = THREE.MathUtils.lerp(1.25, 0.45, u);
         targetRotY = THREE.MathUtils.lerp(2.9, 4.7, u);
         targetRotZ = THREE.MathUtils.lerp(-0.1, 0.25, u);
         targetScale = THREE.MathUtils.lerp(1.35, 0.95, u);
       } else {
-        // Scene 4 -> Scene 5: Finale & CTA (proud studio composition)
+        // Scene 4 & 5: Real TOKCO & Find Your Happiness
         const u = (p - 0.75) / 0.25;
         targetX = THREE.MathUtils.lerp(1.15, 0.0, u);
         targetY = THREE.MathUtils.lerp(0.0, 0.15, u) + floatY;
@@ -450,7 +440,6 @@ export default function DonutModel({ scrollProgress = 0, isMobile = false }) {
       }
     }
 
-    // Smooth lerping
     const lerpFactor = 0.085;
     groupRef.current.position.x += (targetX - groupRef.current.position.x) * lerpFactor;
     groupRef.current.position.y += (targetY - groupRef.current.position.y) * lerpFactor;
@@ -460,7 +449,6 @@ export default function DonutModel({ scrollProgress = 0, isMobile = false }) {
     groupRef.current.scale.y += (targetScale - groupRef.current.scale.y) * lerpFactor;
     groupRef.current.scale.z += (targetScale - groupRef.current.scale.z) * lerpFactor;
 
-    // Inner mesh holds user interactive drag & hover parallax
     const finalRotX = targetRotX + dragRotation.current.x + hoverParallax.current.y;
     const finalRotY = targetRotY + dragRotation.current.y + hoverParallax.current.x;
     const finalRotZ = targetRotZ;
@@ -473,7 +461,7 @@ export default function DonutModel({ scrollProgress = 0, isMobile = false }) {
   return (
     <group ref={groupRef} position={[0.7, 0, 0]}>
       <group ref={innerRef} rotation={[0.35, -0.4, 0.1]}>
-        {/* Realistic baked dough */}
+        {/* Authentic baked dough with pale fried proof-ring */}
         <mesh geometry={doughGeom} castShadow receiveShadow>
           <meshPhysicalMaterial
             map={doughTexture}
@@ -487,23 +475,25 @@ export default function DonutModel({ scrollProgress = 0, isMobile = false }) {
           />
         </mesh>
 
-        {/* Thick dripping pink frosting */}
-        <mesh geometry={frostingGeom} castShadow receiveShadow>
+        {/* Real TOKCO rich milk-chocolate glaze */}
+        <mesh geometry={glazeGeom} castShadow receiveShadow>
           <meshPhysicalMaterial
-            color="#ed1b68"
-            bumpMap={glazeBump}
-            bumpScale={0.012}
-            roughness={0.16}
+            color="#562a14" // Rich milk chocolate tone matching ref-3.jpg
+            bumpMap={chocolateBump}
+            bumpScale={0.014}
+            roughness={0.17} // High-gloss chocolate sheen
             metalness={0.02}
-            clearcoat={1.0}
-            clearcoatRoughness={0.08}
-            transmission={0.03}
+            clearcoat={1.0} // Mirror candy clearcoat reflecting studio lights
+            clearcoatRoughness={0.07}
+            sheen={0.4}
+            sheenColor={new THREE.Color('#7c3d1e')}
+            transmission={0.02}
             ior={1.46}
-            reflectivity={0.95}
+            reflectivity={0.96}
           />
         </mesh>
 
-        {/* Scattered 3D sprinkles */}
+        {/* Authentic pastel sprinkles matching the Chalakudy real donut */}
         <group>
           {sprinkles.map((sp, idx) => (
             <mesh
@@ -519,7 +509,7 @@ export default function DonutModel({ scrollProgress = 0, isMobile = false }) {
         </group>
       </group>
 
-      {/* Ground soft contact shadow */}
+      {/* Soft ground contact shadow */}
       <mesh position={[0, -1.85, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
         <planeGeometry args={[7, 7]} />
         <shadowMaterial opacity={0.28} />

@@ -11,7 +11,7 @@ export default function FallbackDonut({ scrollProgress = 0 }) {
         }}
       >
         <div className="fallback-dough">
-          <div className="fallback-glaze">
+          <div className="fallback-glaze fallback-chocolate-glaze">
             <div className="fallback-hole"></div>
           </div>
         </div>

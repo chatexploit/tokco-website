@@ -2,10 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import Header from './components/Header';
 import DonutCanvas from './components/DonutCanvas';
 import HeroScene from './components/HeroScene';
-import RevealScene from './components/RevealScene';
-import CraftScene from './components/CraftScene';
-import ShowcaseScene from './components/ShowcaseScene';
-import CtaScene from './components/CtaScene';
+import ChocolateScene from './components/ChocolateScene';
+import MenuScene from './components/MenuScene';
+import RealTokcoScene from './components/RealTokcoScene';
+import FindHappinessScene from './components/FindHappinessScene';
 import Footer from './components/Footer';
 
 export default function App() {
@@ -51,7 +51,7 @@ export default function App() {
   }, []);
 
   const handleExplore = () => {
-    const el = document.getElementById('reveal');
+    const el = document.getElementById('chocolate');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }
@@ -73,12 +73,12 @@ export default function App() {
               <span className="ring ring-3"></span>
             </div>
 
-            {/* Photorealistic 3D Donut Canvas */}
+            {/* Photorealistic 3D Chocolate Donut Canvas */}
             <DonutCanvas scrollProgress={scrollProgress} isMobile={isMobile} />
 
             {/* Bottom Status / Navigation bar */}
             <div className="viewport-status-bar" aria-hidden="true">
-              <span className="status-item">TOKCO.IN • 3D STUDIO</span>
+              <span className="status-item">TOKCO • CHALAKUDY, KERALA</span>
               <div className="scroll-progress-pill">
                 <div
                   className="progress-fill"
@@ -87,14 +87,14 @@ export default function App() {
               </div>
               <span className="status-item">
                 {scrollProgress < 0.25
-                  ? 'SCENE 01 / 05'
+                  ? '01 / WELCOME'
                   : scrollProgress < 0.5
-                  ? 'SCENE 02 / 05'
+                  ? '02 / CHOCOLATE'
                   : scrollProgress < 0.75
-                  ? 'SCENE 03 / 05'
+                  ? '03 / THE MENU'
                   : scrollProgress < 0.95
-                  ? 'SCENE 04 / 05'
-                  : 'SCENE 05 / 05'}
+                  ? '04 / REAL STORE'
+                  : '05 / VISIT US'}
               </span>
             </div>
           </div>
@@ -102,10 +102,10 @@ export default function App() {
           {/* Sequential Narrative Scenes */}
           <div className="scenes-flow">
             <HeroScene onExplore={handleExplore} />
-            <RevealScene />
-            <CraftScene />
-            <ShowcaseScene />
-            <CtaScene />
+            <ChocolateScene />
+            <MenuScene />
+            <RealTokcoScene />
+            <FindHappinessScene />
           </div>
         </div>
       </main>

@@ -1,79 +1,85 @@
-# TOKCO.IN — Interactive 3D Donut Website
+# TOKCO — Taste Your Happiness ✨ | Chalakudy, Kerala
 
-![TOKCO Banner](./public/tokco-social.jpg)
+![TOKCO Real Storefront](./public/photos/tokco-storefront-day.jpg)
 
-> **Art-directed interactive 3D WebGL experience for TOKCO ([tokco.in](https://tokco.in/)).**  
-> Built with Three.js, React Three Fiber, and Vite. Designed with Apple-level fluidity, commercial food photography lighting, and thoughtful editorial storytelling.
+> **Official website and interactive 3D dessert experience for TOKCO ([tokco.in](https://tokco.in/)), located on Tramway Lane, Chalakudy, Kerala.**  
+> Crafted with React 19, Three.js, React Three Fiber, and Vite. Features a photorealistic chocolate-glazed donut with pastel sprinkles, authentic storefront photography, and continuous scroll storytelling.
 
 ---
 
-## ✦ Brand Identity & Visual Direction
+## ✦ Brand Identity & Chalakudy Heritage
 
 - **Brand:** TOKCO
-- **Official Domain:** [tokco.in](https://tokco.in/)
-- **Instagram:** [@tokco.in](https://www.instagram.com/tokco.in/)
-- **Palette:**
-  - Primary Yellow: `#FFDD09` / `#FFE600`
-  - Vivid Raspberry Pink: `#ED1B68` / `#F42877`
-  - Charcoal / Ink: `#261520`
-  - Cream Pastry: `#FFF8E9`
-  - Sugar White: `#FFFFFF`
-- **Typography:** *Outfit* (High-contrast editorial display) & *Plus Jakarta Sans* (Legible body copy)
+- **Tagline:** *Taste Your Happiness ✨*
+- **Flagship Location:** Tramway Lane, Chalakudy, Thrissur District, Kerala, India
+- **Core Offerings:**
+  - **Donuts:** Signature milk-chocolate glazed donuts with pastel sprinkles, fluffy yeast fried dough, and daily batch drops.
+  - **Chocolate Breads:** Warm chocolate-filled buns with rich molten chocolate centers.
+  - **Coffee & Drinks:** Handcrafted cold brews, creamy chocolate shakes, and bakery refreshments.
+- **Instagram:** [@tokco.in](https://www.instagram.com/tokco.in/) (43K+ followers)
+- **Primary Colors:** Sunshine Yellow (`#FFDD09`) & Glossy Magenta Pink (`#ED1B68`)
+- **Supporting Palette:** Milk Chocolate (`#5A2E17`), Pastry Cream (`#FFF8E9`), Ink (`#261520`)
 
 ---
 
-## ✦ Features & 3D Architecture
+## ✦ Photorealistic 3D Chocolate Donut Engine
 
-1. **Photorealistic 3D Donut Engine**:
-   - **Baked Pastry Dough**: Subdivided parametric torus with organic low-frequency displacement, baked crumb pores, and an authentic pale "fry line" equatorial proofing band.
-   - **Viscous Draped Frosting**: Independent 3D geometric layer with physical thickness, rounded meniscus edges, and harmonic dripping lobes.
-   - **Specular Sugar Glaze**: `MeshPhysicalMaterial` with clearcoat gloss (1.0), roughness (0.16), transmission (0.03), and IOR (1.46).
-   - **Handcrafted Sprinkles**: 220 individual capsule sprinkles adhering to surface normal vectors with random planar rotation angles across the crest in 5 festive palette colors.
-2. **Interactive Controls & Motion**:
-   - **Drag-to-Rotate**: Pointer and touch drag with physics inertia damping and decaying velocity.
-   - **Hover Parallax**: Cursor tracking creates camera tilt when idle.
-   - **Scroll-Controlled Storytelling**: Coordinates position, scale, rotation, and camera macro zoom across 5 continuous scenes.
-3. **Performance & Accessibility**:
-   - Adaptive pixel ratio capped at `1.4` on mobile and `1.8` on desktop.
-   - Pauses WebGL rendering loop when tab is hidden or canvas is scrolled out of view.
-   - Respects `prefers-reduced-motion` media queries.
-   - Graceful WebGL failure fallback rendering a CSS-styled layered donut.
-   - Zero horizontal overflow across viewports from 320px to 4K ultra-wide.
+The central 3D attraction is an accurate, physically based recreation of TOKCO's real hand-dipped chocolate donut:
 
----
-
-## ✦ Tech Stack
-
-- **Framework**: React 19 + Vite 6
-- **3D Graphics**: Three.js + `@react-three/fiber` + `@react-three/drei`
-- **Icons**: Lucide React
-- **Microinteractions**: Canvas Confetti
-- **Styles**: Modern responsive CSS with custom properties & fluid typography
+1. **Golden Fried Dough**:
+   - Subdivided parametric torus ($R=1.45$, $r=0.68$) with organic proofing lumping.
+   - Procedural baked crust texture with the distinctive pale blonde "fry line" proof band.
+   - Micro-crumb bump mapping reflecting porous artisanal bread crust.
+2. **Viscous Milk-Chocolate Glaze**:
+   - Extruded geometric top layer with harmonic dripping lobes and thick rounded meniscus edges.
+   - `MeshPhysicalMaterial`: Warm milk-chocolate diffuse (`#562A14`), clearcoat gloss (`1.0`), clearcoat roughness (`0.07`), and cocoa sheen (`0.4`).
+3. **Chalakudy Pastel Sprinkles**:
+   - 160 individually oriented capsule sprinkles adhering to surface normal vectors across the glaze crest.
+   - Authentic pastel color palette matching the real TOKCO shop donut: Sky Blue (`#38BDF8`), Sunshine Yellow (`#FDE047`), Sugar White (`#FFFFFF`), Pastel Pink (`#F472B6`), and Mint Lime (`#A3E635`).
+4. **Interactions**:
+   - Touch & mouse drag-to-rotate with decaying inertia.
+   - Subtle idle mouse hover parallax.
+   - Coordinated camera and donut choreography across 5 narrative scroll scenes.
 
 ---
 
-## ✦ Getting Started
+## ✦ 5-Scene Narrative Experience
 
-### Prerequisites
+- **Scene 1 — Welcome to TOKCO:** Sunshine-yellow hero with authentic TOKCO branding, "Taste Your Happiness ✨", Chalakudy location badge, and floating chocolate donut.
+- **Scene 2 — Chocolate Experience:** Camera glides in close to inspect the rich milk-chocolate glaze, glossy specular highlights, and golden proof ring ("Made for your chocolate cravings").
+- **Scene 3 — The TOKCO Menu:** Interactive 3-category showcase with real photography:
+  - *Donuts* (Signature Chocolate Glazed)
+  - *Chocolate Breads* (Warm Molten Chocolate Buns)
+  - *Coffee & Drinks* (Cold Coffee & Shakes)
+- **Scene 4 — The Real TOKCO:** Authentic photo gallery featuring the sunshine-yellow cube storefront, illuminated neon 3D sign at night, the counter team, and the viral Chalakudy community.
+- **Scene 5 — Find Your Happiness:** Visit invitation to Tramway Lane, functional Google Maps directions button, Instagram follow card, and celebration confetti.
 
-- Node.js 18+ or 20+
-- npm 9+
+---
 
-### Installation
+## ✦ Local SEO & Structured Data
+
+Targeted for high-intent local dessert discovery:
+- *TOKCO Chalakudy*
+- *TOKCO donuts*
+- *Chocolate donuts Chalakudy*
+- *Chocolate breads Chalakudy*
+- *Donuts in Chalakudy*
+- *Tramway Lane Chalakudy*
+
+Includes Schema.org `BakeryOrCafe` JSON-LD structured data with street address, coordinates query, cuisine categories, and social links.
+
+---
+
+## ✦ Development & Deployment
+
+### Run Locally
 
 ```bash
-git clone https://github.com/<your-username>/tokco-website.git
+git clone https://github.com/chatexploit/tokco-website.git
 cd tokco-website
 npm install
-```
-
-### Development Server
-
-```bash
 npm run dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000) to view the live 3D site with Hot Module Replacement.
 
 ### Production Build
 
@@ -82,31 +88,25 @@ npm run build
 npm run preview
 ```
 
-The optimized static production assets will be generated in `dist/`.
+### Custom Domain DNS Instructions for `tokco.in`
 
----
-
-## ✦ Custom Domain & DNS Configuration for `tokco.in`
-
-To map the custom domain **tokco.in** to GitHub Pages:
-
-1. In your DNS provider (GoDaddy, Namecheap, Cloudflare, etc.), configure the following records:
+To map **tokco.in** to GitHub Pages:
 
 | Type | Host / Name | Target / Value | TTL |
 | :--- | :--- | :--- | :--- |
-| **A** | `@` | `185.199.108.153` | 3600 (or Auto) |
-| **A** | `@` | `185.199.109.153` | 3600 (or Auto) |
-| **A** | `@` | `185.199.110.153` | 3600 (or Auto) |
-| **A** | `@` | `185.199.111.153` | 3600 (or Auto) |
-| **CNAME** | `www` | `<your-username>.github.io` | 3600 (or Auto) |
+| **A** | `@` | `185.199.108.153` | 3600 |
+| **A** | `@` | `185.199.109.153` | 3600 |
+| **A** | `@` | `185.199.110.153` | 3600 |
+| **A** | `@` | `185.199.111.153` | 3600 |
+| **CNAME** | `www` | `chatexploit.github.io` | 3600 |
 
-2. In the GitHub repository settings:
-   - Navigate to **Settings** > **Pages**.
-   - Under **Custom domain**, enter `tokco.in`.
-   - Check **Enforce HTTPS** once the Let's Encrypt SSL certificate is provisioned (usually takes 15–30 minutes after DNS propagation).
+Once DNS records are propagated:
+1. Open **[GitHub Settings > Pages](https://github.com/chatexploit/tokco-website/settings/pages)**.
+2. Enter `tokco.in` under **Custom domain** and save.
+3. Check **Enforce HTTPS** once the SSL certificate is issued.
 
 ---
 
 ## ✦ License
 
-© 2026 TOKCO. All rights reserved. Original logo and brand assets are intellectual property of TOKCO.
+© 2026 TOKCO. All rights reserved. Original logo and real store photography belong to TOKCO, Tramway Lane, Chalakudy, Kerala.

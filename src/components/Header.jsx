@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowUpRight, Menu, X, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Menu, X, MapPin } from 'lucide-react';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -26,7 +26,9 @@ export default function Header() {
       {/* Top Announcement Bar */}
       <div className="announcement-bar" role="region" aria-label="Announcement">
         <div className="announcement-track">
-          <span>✦ A LITTLE ROUND • A LOT OF HAPPY • SWEET VIBES ONLY • TOKCO.IN ✦</span>
+          <span>
+            ✦ TASTE YOUR HAPPINESS ✨ • TRAMWAY LANE, CHALAKUDY • FRESH CHOCOLATE DONUTS & BUNS DAILY • FOLLOW @TOKCO.IN ✦
+          </span>
         </div>
       </div>
 
@@ -45,9 +47,9 @@ export default function Header() {
           >
             <img
               src="./tokco-logo.png"
-              alt="TOKCO Brand Logo"
-              width="140"
-              height="51"
+              alt="TOKCO Logo - Taste Your Happiness"
+              width="142"
+              height="52"
               className="brand-logo"
             />
           </a>
@@ -57,26 +59,32 @@ export default function Header() {
             <button type="button" onClick={() => scrollTo('hero')} className="nav-item">
               Home
             </button>
-            <button type="button" onClick={() => scrollTo('reveal')} className="nav-item">
-              The Reveal
+            <button type="button" onClick={() => scrollTo('chocolate')} className="nav-item">
+              Chocolate Craft
             </button>
-            <button type="button" onClick={() => scrollTo('craft')} className="nav-item">
-              Anatomy & Craft
+            <button type="button" onClick={() => scrollTo('menu')} className="nav-item">
+              Menu
             </button>
-            <button type="button" onClick={() => scrollTo('showcase')} className="nav-item">
-              Universe
+            <button type="button" onClick={() => scrollTo('realtokco')} className="nav-item">
+              The Real TOKCO
             </button>
-            <button type="button" onClick={() => scrollTo('connect')} className="nav-item">
-              Connect
+            <button type="button" onClick={() => scrollTo('location')} className="nav-item">
+              Visit Chalakudy
             </button>
           </nav>
 
           {/* Right Header Actions */}
           <div className="header-actions">
-            <div className="status-badge" title="Real-time WebGL Donut active">
-              <span className="status-dot"></span>
-              <span className="status-text">3D LIVE</span>
-            </div>
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Tramway+Lane+Chalakudy+Kerala"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="location-pill-badge"
+              title="Visit our shop at Tramway Lane, Chalakudy"
+            >
+              <MapPin size={12} className="loc-pin" />
+              <span>Chalakudy, Kerala</span>
+            </a>
 
             <a
               href="https://www.instagram.com/tokco.in/"
@@ -111,35 +119,35 @@ export default function Header() {
                 onClick={() => scrollTo('hero')}
                 className="mobile-nav-item"
               >
-                01. Home
+                01. Home — Taste Your Happiness
               </button>
               <button
                 type="button"
-                onClick={() => scrollTo('reveal')}
+                onClick={() => scrollTo('chocolate')}
                 className="mobile-nav-item"
               >
-                02. The Reveal
+                02. Chocolate Experience
               </button>
               <button
                 type="button"
-                onClick={() => scrollTo('craft')}
+                onClick={() => scrollTo('menu')}
                 className="mobile-nav-item"
               >
-                03. Anatomy & Craft
+                03. The TOKCO Menu
               </button>
               <button
                 type="button"
-                onClick={() => scrollTo('showcase')}
+                onClick={() => scrollTo('realtokco')}
                 className="mobile-nav-item"
               >
-                04. The Universe
+                04. The Real TOKCO Store
               </button>
               <button
                 type="button"
-                onClick={() => scrollTo('connect')}
+                onClick={() => scrollTo('location')}
                 className="mobile-nav-item"
               >
-                05. Connect & Follow
+                05. Find Us in Chalakudy
               </button>
             </nav>
 
